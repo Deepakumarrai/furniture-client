@@ -37,11 +37,26 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
     "Gaming Chair",
   ];
 
+  const lightingSubcategories = [
+    "All Lighting",
+    "Table Lamps",
+    "Floor Lamps",
+    "Ceiling Lamps",
+    "Wall Lamps",
+  ];
+
   const isChairsCategory =
     selectedCategory.toLowerCase() === "chairs" ||
     (selectedSubCategory &&
       chairSubcategories.some(
         (c) => c.toLowerCase() === selectedSubCategory.toLowerCase()
+      ));
+
+  const isLightingCategory =
+    selectedCategory.toLowerCase() === "lighting" ||
+    (selectedSubCategory &&
+      lightingSubcategories.some(
+        (l) => l.toLowerCase() === selectedSubCategory.toLowerCase()
       ));
 
   return (
@@ -53,7 +68,7 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
           <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-text-secondary" />
           <input
             type="text"
-            placeholder="Search chairs, sofas, tables..."
+            placeholder="Search chairs, lighting, tables..."
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             className="w-full pl-10 pr-10 py-2.5 bg-white border border-border text-text-primary placeholder:text-text-muted rounded-full text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-colors shadow-2xs font-poppins"
@@ -83,7 +98,7 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
             if (onSelectSubCategory) onSelectSubCategory("");
           }}
           className={cn(
-            "px-4 py-2 text-xs font-semibold rounded-full transition-all flex-shrink-0 font-poppins",
+            "px-4 py-2 text-xs font-semibold rounded-full transition-all flex-shrink-0 font-poppins cursor-pointer active:scale-95",
             selectedCategory === "All" && !selectedSubCategory
               ? "bg-primary text-white shadow-xs"
               : "bg-white text-text-secondary hover:text-text-primary border border-border"
@@ -103,7 +118,7 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
                 if (onSelectSubCategory) onSelectSubCategory("");
               }}
               className={cn(
-                "px-4 py-2 text-xs font-semibold rounded-full transition-all flex-shrink-0 font-poppins",
+                "px-4 py-2 text-xs font-semibold rounded-full transition-all flex-shrink-0 font-poppins cursor-pointer active:scale-95",
                 isSelected
                   ? "bg-primary text-white shadow-xs"
                   : "bg-white text-text-secondary hover:text-text-primary border border-border"
@@ -118,7 +133,7 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
       {/* Subcategory Pills when in Chairs category */}
       {isChairsCategory && onSelectSubCategory && (
         <div className="pt-2 border-t border-[#EDEDEA]">
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
             <span className="text-[11px] font-semibold text-primary uppercase tracking-wider mr-1 flex-shrink-0">
               Chair Types:
             </span>
@@ -136,7 +151,42 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
                     onSelectSubCategory(isAll ? "" : sub);
                   }}
                   className={cn(
-                    "px-3 py-1.5 text-xs font-medium rounded-full transition-all flex-shrink-0",
+                    "px-3 py-1.5 text-xs font-medium rounded-full transition-all flex-shrink-0 cursor-pointer active:scale-95",
+                    isSelected
+                      ? "bg-[#18552B] text-white shadow-2xs font-semibold"
+                      : "bg-[#EFEFEA] text-[#4A4A48] hover:bg-[#E2E2DC] hover:text-[#171717]"
+                  )}
+                >
+                  {sub}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Subcategory Pills when in Lighting category */}
+      {isLightingCategory && onSelectSubCategory && (
+        <div className="pt-2 border-t border-[#EDEDEA]">
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
+            <span className="text-[11px] font-semibold text-primary uppercase tracking-wider mr-1 flex-shrink-0">
+              Lighting Types:
+            </span>
+            {lightingSubcategories.map((sub) => {
+              const isAll = sub === "All Lighting";
+              const isSelected = isAll
+                ? !selectedSubCategory
+                : selectedSubCategory.toLowerCase() === sub.toLowerCase();
+
+              return (
+                <button
+                  key={sub}
+                  onClick={() => {
+                    onSelectCategory("Lighting");
+                    onSelectSubCategory(isAll ? "" : sub);
+                  }}
+                  className={cn(
+                    "px-3 py-1.5 text-xs font-medium rounded-full transition-all flex-shrink-0 cursor-pointer active:scale-95",
                     isSelected
                       ? "bg-[#18552B] text-white shadow-2xs font-semibold"
                       : "bg-[#EFEFEA] text-[#4A4A48] hover:bg-[#E2E2DC] hover:text-[#171717]"

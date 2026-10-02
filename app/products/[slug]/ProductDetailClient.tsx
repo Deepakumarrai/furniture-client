@@ -240,11 +240,11 @@ export function ProductDetailClient({
             {/* Guarantees Strip */}
             <div className="grid grid-cols-2 gap-3 pt-4 border-t border-[#F0F0ED] text-[11px] text-[#757575]">
               <div className="flex items-center gap-2">
-                <Truck className="w-4 h-4 text-[#18552B]" />
-                <span>Free shipping above $180</span>
+                <Truck className="w-4 h-4 text-[#18552B] flex-shrink-0" />
+                <span>Free delivery across India</span>
               </div>
               <div className="flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-[#18552B]" />
+                <ShieldCheck className="w-4 h-4 text-[#18552B] flex-shrink-0" />
                 <span>10-Year Craft Warranty</span>
               </div>
             </div>
@@ -260,7 +260,7 @@ export function ProductDetailClient({
               type="button"
               onClick={() => setActiveTab("description")}
               className={cn(
-                "text-sm sm:text-base font-bold font-poppins transition-colors relative pb-1",
+                "text-sm sm:text-base font-bold font-poppins transition-colors relative pb-1 cursor-pointer",
                 activeTab === "description"
                   ? "text-[#18552B]"
                   : "text-[#757575] hover:text-[#171717]"
@@ -275,7 +275,7 @@ export function ProductDetailClient({
               type="button"
               onClick={() => setActiveTab("additional")}
               className={cn(
-                "text-sm sm:text-base font-bold font-poppins transition-colors relative pb-1",
+                "text-sm sm:text-base font-bold font-poppins transition-colors relative pb-1 cursor-pointer",
                 activeTab === "additional"
                   ? "text-[#18552B]"
                   : "text-[#757575] hover:text-[#171717]"
@@ -321,7 +321,7 @@ export function ProductDetailClient({
               </div>
               <div className="p-4 bg-[#F7F7F5] rounded-xl border border-[#E8E8E5]">
                 <span className="font-bold text-[#171717] block mb-1">Shipping & Care</span>
-                <p>Clean with damp cloth. Fast delivery in 2-3 business days.</p>
+                <p>Clean with damp microfiber cloth. Doorstep delivery across India in 3-5 days.</p>
               </div>
             </div>
           )}
@@ -352,6 +352,25 @@ export function ProductDetailClient({
           </div>
         )}
 
+      </div>
+
+      {/* Mobile Sticky Bottom Action Bar */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-[#E8E8E5] p-3 px-4 flex items-center justify-between shadow-lg pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+        <div>
+          <span className="text-[10px] text-[#757575] font-medium block">Total Price</span>
+          <span className="font-poppins font-bold text-base text-[#171717]">
+            {product.priceFormatted}
+          </span>
+        </div>
+
+        <button
+          type="button"
+          onClick={handleAddToCart}
+          className="inline-flex items-center justify-center gap-2 bg-[#18552B] active:bg-[#123D20] text-white text-xs font-semibold px-6 py-2.5 rounded-full shadow-xs active:scale-95 transition-all"
+        >
+          <ShoppingBag className="w-4 h-4" />
+          <span>{isAddedToCart ? "Added!" : "Add to Cart"}</span>
+        </button>
       </div>
 
       {/* Custom Quote Modal */}

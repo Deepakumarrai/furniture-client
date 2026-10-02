@@ -24,10 +24,10 @@ export const FeaturedCategories: React.FC = () => {
   ];
 
   const lightingSubcategories = [
-    "Table Lights",
-    "Floor Lights",
-    "Ceiling Lights",
-    "Wall Lights",
+    "Table Lamps",
+    "Floor Lamps",
+    "Ceiling Lamps",
+    "Wall Lamps",
   ];
 
   return (
@@ -141,7 +141,7 @@ export const FeaturedCategories: React.FC = () => {
                   {lightingSubcategories.map((sub, idx) => (
                     <Link
                       key={idx}
-                      href="/products?category=Storage"
+                      href={`/products?category=Lighting&sub=${encodeURIComponent(sub)}`}
                       className="block text-xs font-medium text-[#757575] hover:text-[#18552B] transition-colors"
                     >
                       {sub}

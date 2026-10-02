@@ -45,6 +45,22 @@ export const Navbar: React.FC = () => {
     return false;
   };
 
+  // Close mobile menu on pathname change and lock body scroll
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
+
   return (
     <>
       {/* 1. TOP PROMOTIONAL BAR (Dark Forest Green #1E392A) */}
@@ -54,8 +70,8 @@ export const Navbar: React.FC = () => {
           {/* Left: Call Us */}
           <div className="flex items-center gap-1.5 text-white/90 font-medium">
             <span>Call Us :</span>
-            <a href="tel:+123456789" className="hover:text-[#FFB82E] transition-colors">
-              +123-456-789
+            <a href="tel:+919876543210" className="hover:text-[#FFB82E] transition-colors">
+              +91 98765 43210
             </a>
           </div>
 
@@ -85,7 +101,7 @@ export const Navbar: React.FC = () => {
                 key={idx}
                 href="#"
                 aria-label={s.label}
-                className="w-5 h-5 rounded-full bg-[#FFB82E] text-[#1E392A] flex items-center justify-center hover:scale-110 transition-transform"
+                className="w-5 h-5 rounded-full bg-[#FFB82E] text-[#1E392A] flex items-center justify-center hover:scale-110 transition-transform active:scale-95"
               >
                 <svg className="w-2.5 h-2.5 fill-current" viewBox="0 0 24 24">
                   {s.svg}
@@ -138,12 +154,12 @@ export const Navbar: React.FC = () => {
           </nav>
 
           {/* Right Action Icons: Search, Wishlist, Cart, User */}
-          <div className="flex items-center space-x-3 sm:space-x-4 text-[#171717]">
+          <div className="flex items-center space-x-2 sm:space-x-4 text-[#171717]">
             {/* Search Button */}
             <button
               type="button"
               onClick={() => setIsSearchOpen(true)}
-              className="p-1.5 hover:text-[#18552B] transition-colors rounded-full hover:bg-gray-100"
+              className="p-2 sm:p-1.5 hover:text-[#18552B] transition-colors rounded-full hover:bg-gray-100 active:scale-95 cursor-pointer"
               aria-label="Search Products"
             >
               <Search className="w-5 h-5 stroke-[2]" />
@@ -153,7 +169,7 @@ export const Navbar: React.FC = () => {
             <button
               type="button"
               onClick={() => setIsWishlistOpen(true)}
-              className="p-1.5 hover:text-[#18552B] transition-colors relative rounded-full hover:bg-gray-100"
+              className="p-2 sm:p-1.5 hover:text-[#18552B] transition-colors relative rounded-full hover:bg-gray-100 active:scale-95 cursor-pointer"
               aria-label="My Wishlist"
             >
               <Heart className="w-5 h-5 stroke-[2]" />
@@ -168,7 +184,7 @@ export const Navbar: React.FC = () => {
             <button
               type="button"
               onClick={() => setIsWishlistOpen(true)}
-              className="p-1.5 hover:text-[#18552B] transition-colors relative rounded-full hover:bg-gray-100"
+              className="p-2 sm:p-1.5 hover:text-[#18552B] transition-colors relative rounded-full hover:bg-gray-100 active:scale-95 cursor-pointer"
               aria-label="Shopping Cart"
             >
               <ShoppingBag className="w-5 h-5 stroke-[2]" />
@@ -186,7 +202,7 @@ export const Navbar: React.FC = () => {
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-1 text-[#171717] hover:text-[#18552B] focus:outline-none"
+              className="md:hidden p-2 text-[#171717] hover:text-[#18552B] focus:outline-none rounded-lg active:bg-gray-100 cursor-pointer"
               aria-label="Toggle Menu"
             >
               {mobileMenuOpen ? (
@@ -199,26 +215,53 @@ export const Navbar: React.FC = () => {
 
         </div>
 
-        {/* Mobile Dropdown */}
+        {/* Mobile Slide-Out Drawer & Backdrop */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-b border-[#EBEBE8] px-6 py-5 shadow-lg animate-fade-in">
-            <nav className="flex flex-col space-y-3">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className={cn(
-                    "py-2 text-sm font-semibold border-b border-gray-100 flex items-center justify-between",
-                    isActive(link.href) ? "text-[#18552B]" : "text-[#171717]"
-                  )}
+          <div className="md:hidden fixed inset-0 top-[110px] z-50 flex flex-col bg-black/40 backdrop-blur-xs animate-fade-in">
+            <div className="bg-white border-b border-[#EBEBE8] px-6 py-6 shadow-xl flex-1 max-h-[calc(100vh-110px)] overflow-y-auto">
+              <nav className="flex flex-col space-y-2">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={cn(
+                      "py-3 text-base font-semibold border-b border-gray-100 flex items-center justify-between active:text-[#18552B]",
+                      isActive(link.href) ? "text-[#18552B]" : "text-[#171717]"
+                    )}
+                  >
+                    <span>{link.name}</span>
+                    {isActive(link.href) && (
+                      <span className="w-2 h-2 rounded-full bg-[#18552B]" />
+                    )}
+                  </Link>
+                ))}
+              </nav>
+
+              {/* Mobile Drawer Quick Action Buttons */}
+              <div className="pt-6 space-y-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    setIsSearchOpen(true);
+                  }}
+                  className="w-full flex items-center justify-center gap-2 py-3 rounded-full bg-[#F7F7F5] border border-[#E8E8E5] text-xs font-semibold text-[#171717] active:bg-[#ECECE8]"
                 >
-                  <span>{link.name}</span>
-                  {isActive(link.href) && (
-                    <span className="w-2 h-2 rounded-full bg-[#18552B]" />
-                  )}
-                </Link>
-              ))}
-            </nav>
+                  <Search className="w-4 h-4 text-text-secondary" />
+                  <span>Search Furniture Collection</span>
+                </button>
+
+                <div className="flex items-center justify-between pt-4 border-t border-gray-100 text-xs text-[#757575]">
+                  <span>Studio Hotline:</span>
+                  <a href="tel:+919876543210" className="font-bold text-[#18552B]">
+                    +91 98765 43210
+                  </a>
+                </div>
+              </div>
+            </div>
+            {/* Click-to-close Backdrop bottom */}
+            <div className="flex-1" onClick={() => setMobileMenuOpen(false)} />
           </div>
         )}
       </header>

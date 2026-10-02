@@ -51,21 +51,37 @@ export const Testimonials: React.FC = () => {
     },
   ];
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   // Auto slide every 6 seconds unless user is hovering
   useEffect(() => {
     if (isPaused) return;
     const interval = setInterval(() => {
-      setActiveIdx((prev) => (prev + 1) % (reviews.length - 1));
+      setActiveIdx((prev) => {
+        const maxIdx = isMobile ? reviews.length - 1 : reviews.length - 2;
+        return (prev + 1) > maxIdx ? 0 : prev + 1;
+      });
     }, 6000);
     return () => clearInterval(interval);
-  }, [isPaused, reviews.length]);
+  }, [isPaused, reviews.length, isMobile]);
 
   const prevSlide = () => {
-    setActiveIdx((prev) => (prev === 0 ? reviews.length - 2 : prev - 1));
+    const maxIdx = isMobile ? reviews.length - 1 : reviews.length - 2;
+    setActiveIdx((prev) => (prev === 0 ? maxIdx : prev - 1));
   };
 
   const nextSlide = () => {
-    setActiveIdx((prev) => (prev >= reviews.length - 2 ? 0 : prev + 1));
+    const maxIdx = isMobile ? reviews.length - 1 : reviews.length - 2;
+    setActiveIdx((prev) => (prev >= maxIdx ? 0 : prev + 1));
   };
 
   return (
@@ -95,14 +111,14 @@ export const Testimonials: React.FC = () => {
             <button
               onClick={prevSlide}
               aria-label="Previous reviews"
-              className="w-10 h-10 rounded-full border border-[#D5D5D0] bg-white text-[#171717] hover:bg-[#18552B] hover:text-white hover:border-[#18552B] transition-all duration-200 flex items-center justify-center shadow-2xs hover:shadow-xs active:scale-95"
+              className="w-10 h-10 rounded-full border border-[#D5D5D0] bg-white text-[#171717] hover:bg-[#18552B] hover:text-white hover:border-[#18552B] transition-all duration-200 flex items-center justify-center shadow-2xs hover:shadow-xs active:scale-95 cursor-pointer"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={nextSlide}
               aria-label="Next reviews"
-              className="w-10 h-10 rounded-full border border-[#D5D5D0] bg-white text-[#171717] hover:bg-[#18552B] hover:text-white hover:border-[#18552B] transition-all duration-200 flex items-center justify-center shadow-2xs hover:shadow-xs active:scale-95"
+              className="w-10 h-10 rounded-full border border-[#D5D5D0] bg-white text-[#171717] hover:bg-[#18552B] hover:text-white hover:border-[#18552B] transition-all duration-200 flex items-center justify-center shadow-2xs hover:shadow-xs active:scale-95 cursor-pointer"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
@@ -114,7 +130,7 @@ export const Testimonials: React.FC = () => {
           <div
             className="flex transition-transform duration-700 ease-out gap-6"
             style={{
-              transform: `translateX(-${activeIdx * (100 / (typeof window !== "undefined" && window.innerWidth < 768 ? 1 : 2))}%)`,
+              transform: `translateX(-${activeIdx * (isMobile ? 100 : 50)}%)`,
             }}
           >
             {reviews.map((rev) => (

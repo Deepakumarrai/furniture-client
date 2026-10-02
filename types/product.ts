@@ -43,6 +43,8 @@ export type ProductCategory =
   | "Office"
   | "Tables"
   | "Chairs"
+  | "Sofa"
+  | "Lighting"
   | "Storage"
   | "Custom";
 

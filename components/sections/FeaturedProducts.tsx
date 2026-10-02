@@ -10,7 +10,21 @@ export const FeaturedProducts: React.FC = () => {
 
   const tabs = ["All", "Latest Products", "Best Sellers", "Featured Products"];
 
-  const displayProducts = PRODUCTS.slice(0, 8);
+  const getFilteredProducts = () => {
+    switch (activeTab) {
+      case "Best Sellers":
+        return PRODUCTS.filter((p) => p.rating && p.rating >= 4.9).slice(0, 8);
+      case "Featured Products":
+        return PRODUCTS.filter((p) => p.isFeatured).slice(0, 8);
+      case "Latest Products":
+        return PRODUCTS.slice(0, 8);
+      case "All":
+      default:
+        return PRODUCTS.slice(0, 8);
+    }
+  };
+
+  const displayProducts = getFilteredProducts();
 
   return (
     <section className="py-14 sm:py-18 bg-white border-b border-[#EBEBE8]">
@@ -23,7 +37,7 @@ export const FeaturedProducts: React.FC = () => {
           </h2>
 
           {/* Centered Filter Tabs */}
-          <div className="inline-flex flex-wrap items-center justify-center gap-3">
+          <div className="inline-flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
             {tabs.map((tab) => {
               const isSelected = activeTab === tab;
               return (
@@ -31,7 +45,7 @@ export const FeaturedProducts: React.FC = () => {
                   key={tab}
                   onClick={() => setActiveTab(tab)}
                   className={cn(
-                    "px-6 py-2.5 text-xs sm:text-sm font-semibold rounded-full transition-all duration-200 font-poppins",
+                    "px-5 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold rounded-full transition-all duration-200 font-poppins cursor-pointer active:scale-95",
                     isSelected
                       ? "bg-[#18552B] text-white shadow-xs"
                       : "bg-white text-[#171717] hover:text-[#18552B] border border-[#E8E8E5] hover:border-[#18552B]"
