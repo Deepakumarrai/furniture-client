@@ -10,6 +10,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://furniture-client.vercel.app"),
   title: {
     default: "Furniture. | Modern Living & Interior Solutions",
     template: "%s | Furniture.",

@@ -291,19 +291,21 @@ export function ProductDetailClient({
           {activeTab === "description" ? (
             <div className="space-y-4 text-xs sm:text-sm text-[#757575] leading-relaxed">
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                {product.fullStory || product.description}
               </p>
               <p>
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                Every piece is hand-inspected for grain continuity, moisture balance, and structural integrity. Hand-finished with organic hardwax oils and waterborne sealants to ensure durability while maintaining tactile wood breathability and indoor air purity.
               </p>
-              <ul className="space-y-2 pt-2">
-                {product.features.map((feature, idx) => (
-                  <li key={idx} className="flex items-start gap-2.5 text-xs text-[#171717]">
-                    <CheckCircle2 className="w-4 h-4 text-[#18552B] flex-shrink-0 mt-0.5" />
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
+              {product.features && product.features.length > 0 && (
+                <ul className="space-y-2 pt-2">
+                  {product.features.map((feature, idx) => (
+                    <li key={idx} className="flex items-start gap-2.5 text-xs text-[#171717]">
+                      <CheckCircle2 className="w-4 h-4 text-[#18552B] flex-shrink-0 mt-0.5" />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-xs text-[#757575]">
