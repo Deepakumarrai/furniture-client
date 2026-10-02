@@ -10,6 +10,7 @@ import {
   CheckCircle2,
   Users,
   Award,
+  Building2,
   ArrowRight,
 } from "lucide-react";
 import { CTASection } from "@/components/sections/CTASection";
@@ -22,6 +23,13 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
+  const statIcons = [
+    <Award key="1" className="w-5 h-5 text-accent-yellow" />,
+    <Building2 key="2" className="w-5 h-5 text-accent-yellow" />,
+    <Users key="3" className="w-5 h-5 text-accent-yellow" />,
+    <Sparkles key="4" className="w-5 h-5 text-accent-yellow" />,
+  ];
+
   const values = [
     {
       icon: <TreeDeciduous className="w-5 h-5 text-primary" />,
@@ -78,48 +86,86 @@ export default function AboutPage() {
 
   return (
     <div className="bg-[#F7F7F5]">
-      {/* Hero Section */}
-      <section className="relative py-16 sm:py-24 bg-[#123D20] text-white overflow-hidden">
-        <div className="absolute inset-0 z-0 opacity-20">
+      {/* 3D Immersive Hero Section */}
+      <section className="relative py-18 sm:py-24 lg:py-28 bg-gradient-to-b from-[#0F3019] via-[#144423] to-[#123D20] text-white overflow-hidden">
+        {/* Ambient Glows & Background Texture */}
+        <div className="absolute inset-0 z-0 opacity-25">
           <Image
             src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=2000&q=80"
             alt="Artisans Working in Furniture Workshop"
             fill
             priority
             sizes="100vw"
-            className="object-cover object-center"
+            className="object-cover object-center scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#123D20] via-[#123D20]/80 to-[#123D20]/90" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0F3019] via-[#123D20]/85 to-[#0F3019]/90" />
         </div>
 
-        <div className="relative z-10 max-w-container mx-auto px-4 sm:px-6 text-center">
-          <span className="text-xs uppercase tracking-widest font-semibold text-accent-yellow mb-3 block">
-            Our Purpose & Heritage
-          </span>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-poppins tracking-tight text-white mb-4">
-            Crafted for Modern Living
+        {/* 3D Floating Glowing Rings */}
+        <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-[#FFB82E]/10 blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-[#18552B]/40 blur-3xl pointer-events-none" />
+
+        <div className="relative z-10 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          {/* Top Pill Tag */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-accent-yellow text-xs font-bold uppercase tracking-widest mb-4 shadow-sm">
+            <span className="w-2 h-2 rounded-full bg-accent-yellow animate-pulse" />
+            <span>Our Purpose & Heritage</span>
+          </div>
+
+          {/* Main Headline */}
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold font-poppins tracking-tight text-white mb-5 leading-tight">
+            Crafted for <span className="text-accent-yellow">Modern Living</span>
           </h1>
-          <p className="text-xs sm:text-sm md:text-base text-white/80 font-normal max-w-xl mx-auto leading-relaxed">
-            We exist to bring enduring warmth, tactile beauty, and quiet architectural harmony into modern homes and workspaces.
+
+          {/* Subtitle */}
+          <p className="text-xs sm:text-base text-white/85 font-normal max-w-2xl mx-auto leading-relaxed mb-8">
+            We exist to bring enduring warmth, tactile natural beauty, and quiet architectural harmony into modern homes and workspaces across India.
           </p>
+
+          {/* Floating Trust Pills for Mobile & Desktop */}
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/30 backdrop-blur-md border border-white/15 text-white/90 text-xs font-medium">
+              🌿 100% FSC® Hardwoods
+            </span>
+            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/30 backdrop-blur-md border border-white/15 text-white/90 text-xs font-medium">
+              🛡️ 10-Year Craft Guarantee
+            </span>
+            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/30 backdrop-blur-md border border-white/15 text-white/90 text-xs font-medium">
+              ✨ Zero-VOC Organic Oils
+            </span>
+          </div>
         </div>
       </section>
 
-      {/* Stats Counter Section */}
-      <section className="bg-white border-b border-border">
-        <div className="max-w-container mx-auto px-4 sm:px-6 py-10 sm:py-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            {COMPANY_INFO.stats.map((stat, idx) => (
-              <div key={idx} className="p-3 border-r last:border-r-0 border-border">
-                <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-primary mb-1 font-poppins">
+      {/* 3D Floating Stats Grid Section */}
+      <section className="relative -mt-8 sm:-mt-12 z-20 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          {COMPANY_INFO.stats.map((stat, idx) => (
+            <div
+              key={idx}
+              className="bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-3xl p-5 sm:p-7 border border-[#E8E8E5] shadow-3d hover:shadow-3d-hover transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between group active:scale-[0.98]"
+            >
+              {/* Top Row: Value & Icon */}
+              <div className="flex items-start justify-between mb-2">
+                <p className="text-2xl sm:text-4xl font-bold text-[#18552B] font-poppins tracking-tight group-hover:scale-105 transition-transform">
                   {stat.value}
                 </p>
-                <p className="text-[11px] uppercase tracking-wider text-text-secondary font-semibold">
+                <div className="w-9 h-9 rounded-2xl bg-[#18552B]/10 flex items-center justify-center flex-shrink-0 group-hover:bg-[#18552B] transition-colors">
+                  {statIcons[idx % statIcons.length]}
+                </div>
+              </div>
+
+              {/* Label */}
+              <div>
+                <p className="text-xs sm:text-sm font-bold text-[#171717] font-poppins">
                   {stat.label}
                 </p>
+                <p className="text-[11px] text-[#757575] mt-0.5 hidden sm:block">
+                  Verified Heritage Standard
+                </p>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </section>
 
